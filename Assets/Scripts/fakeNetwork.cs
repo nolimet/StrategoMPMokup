@@ -18,6 +18,19 @@ public class fakeNetwork : MonoBehaviour {
         UIManager.OnTieRequest += UIManager_OnTieRequest;
     }
 
+    void OnDestory()
+    {
+        Chathandler.OnSendChat -= Chathandler_OnSendChat;
+        Chathandler.OnChatRecieved -= Chathandler_OnChatRecieved;
+        UIManager.OnAcceptPauseRequest -= UIManager_OnAcceptPauseRequest;
+        UIManager.OnGotSurrender-= UIManager_OnGotSurrender;
+        UIManager.OnPauseRequest -= UIManager_OnPauseRequest;
+        UIManager.OnRecievedPauseRequest -= UIManager_OnRecievedPauseRequest;
+        UIManager.OnRequestTie -= UIManager_OnRequestTie;
+        UIManager.OnSurrenderSend -= UIManager_OnSurrenderSend;
+        UIManager.OnTieRequest -= UIManager_OnTieRequest;
+    }
+
     void UIManager_OnTieRequest()
     {
         throw new System.NotImplementedException();
@@ -41,7 +54,7 @@ public class fakeNetwork : MonoBehaviour {
     void UIManager_OnPauseRequest()
     {
         if (willsend)
-            Invoke("pausepause", 0.5f);
+            StartCoroutine(pausepause());
         else
             CustomDebug.Log("No pause", CustomDebug.Level.Info);
         willsend = !willsend;
@@ -68,8 +81,9 @@ public class fakeNetwork : MonoBehaviour {
         //Chathandler.CallOnChatRecieved("bob", "I WILL DESTORY YOU!!");
     }
 
-    void pausepause()
+    IEnumerator pausepause()
     {
+        yield return new WaitForSeconds(0.5f);
         UIManager.callOnAcceptPauseRequest();
     }
 }

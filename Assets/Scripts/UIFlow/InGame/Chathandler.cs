@@ -5,11 +5,15 @@ public class Chathandler : MonoBehaviour {
 
     public UnityEngine.UI.InputField inputField;
     public UnityEngine.UI.Text textField;
+    [SerializeField]
+    RectTransform textfieldrect;
+    [SerializeField]
+    UnityEngine.UI.ScrollRect scrollRect;
 
     public static Chathandler instance;
 
-    [SerializeField]
-    string[] messages;
+    //[SerializeField]
+   // string[] messages;
 
     public delegate void ReceivedChat(string sender, string text);
     public static event ReceivedChat OnChatRecieved;
@@ -29,7 +33,8 @@ public class Chathandler : MonoBehaviour {
     {
         OnChatRecieved += Chathandler_OnChatRecieved;
         OnSendChat += Chathandler_OnSendChat;
-        messages = new string[8];
+        textField.text = "";
+        //messages = new string[8];
         instance = this;
         UnityEngine.UI.InputField.SubmitEvent submitEvent = new UnityEngine.UI.InputField.SubmitEvent();
         submitEvent.AddListener(SendChatButton);
@@ -44,7 +49,9 @@ public class Chathandler : MonoBehaviour {
 
     void Chathandler_OnChatRecieved(string sender, string text)
     {
-        textField.text = addedNewLine(sender + " : " + text); //"[" + System.DateTime.Now.ToString() + "]" +
+        textField.text += (sender + ": " + text + "\n"); //"[" + System.DateTime.Now.ToString() + "]" +
+        textfieldrect.sizeDelta = new Vector2(textfieldrect.sizeDelta.x, textField.preferredHeight);
+        scrollRect.verticalNormalizedPosition = 0f;
     }
 
     public void SendChatButton(string value = "")
@@ -54,9 +61,9 @@ public class Chathandler : MonoBehaviour {
         inputField.text = "";
     }
 
-    string addedNewLine(string text)
+    /*string addedNewLine(string text)
     {
-        messages[0] = messages[1];
+       /* messages[0] = messages[1];
         messages[1] = messages[2];
         messages[2] = messages[3];
         messages[3] = messages[4];
@@ -73,7 +80,7 @@ public class Chathandler : MonoBehaviour {
         }
 
         return output;
-    }
+    }*/
 
     #region Editor
 /* #if UNITY_EDITOR

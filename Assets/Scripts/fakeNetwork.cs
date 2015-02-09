@@ -38,7 +38,7 @@ public class fakeNetwork : MonoBehaviour {
 
     void UIManager_OnSurrenderSend()
     {
-        throw new System.NotImplementedException();
+        UIManager.CallOnGotSurrender();
     }
 
     void UIManager_OnRequestTie()
@@ -67,7 +67,7 @@ public class fakeNetwork : MonoBehaviour {
 
     void UIManager_OnGotSurrender()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     void UIManager_OnAcceptPauseRequest()

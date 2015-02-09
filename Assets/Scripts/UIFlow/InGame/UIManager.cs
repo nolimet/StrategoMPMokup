@@ -5,15 +5,14 @@ public class UIManager : MonoBehaviour
 {
     #region Variables
     [SerializeField]
-    GameObject ChatWindow = null, PauseWindow = null, SurrenderConfirmWindow = null;
+    GameObject ChatWindow = null, PauseWindow = null, SurrenderConfirmWindow = null, TieConfirmWindow = null, TieWaitWindow = null;
     [SerializeField]
     GameObject[] MenuItems = new GameObject[0], Canvases = new GameObject[0];
     [SerializeField]
-    UnityEngine.UI.Text PauseText = null;
+    UnityEngine.UI.Text PauseText = null, TieWaitText = null;
     [SerializeField]
     CanvasGroup ChatGroup = null, PauseGroup = null;
-    bool PauseReceivedCallback = false;
-    bool pauseopen = false;
+    bool PauseReceivedCallback = false, pauseopen = false, recievedTieconfirm = false;
     #endregion
 
 
@@ -49,7 +48,11 @@ public class UIManager : MonoBehaviour
     }
 
     public delegate void GotTieRequest();
-    public static event GotTieRequest OnTieRequest;
+    public static event GotTieRequest OnGotTieRequest;
+    public static void callOnGotTieRequest()
+    {
+        OnGotTieRequest();
+    }
 
     public delegate void DRequestTie();
     public static event DRequestTie OnRequestTie;
@@ -87,7 +90,20 @@ public class UIManager : MonoBehaviour
 
     public void RequestTie()
     {
+        TieConfirmWindow.SetActive(true);
+    }
+
+    public void ConfirmTie()
+    {
         OnRequestTie();
+        StartCoroutine(TieWait());
+        TieConfirmWindow.SetActive(false);
+        TieWaitWindow.SetActive(true);
+    }
+
+    public void CancelTie()
+    {
+        TieConfirmWindow.SetActive(false);
     }
 
     public void OpenMenu(int value)
@@ -112,31 +128,37 @@ public class UIManager : MonoBehaviour
     #region monoDrivenEvents
     void Start()
     {
-        OnTieRequest += UIManager_OnTieRequest;
         OnGotSurrender += UIManager_OnGotSurrender;
         OnAcceptPauseRequest += UIManager_OnAcceptPauseRequest;
         OnRecievedPauseRequest += UIManager_OnRecievedPauseRequest;
         OnPauseRequest += UIManager_OnPauseRequest;
         onContinueGameRequest += UIManager_onContinueGameRequest;
+        OnGotTieRequest += UIManager_OnGotTieRequest;
 
         foreach (GameObject g in Canvases)
             g.SetActive(true);
     }
 
+    
+
     void OnDestroy()
     {
-        OnTieRequest -= UIManager_OnTieRequest;
         OnGotSurrender -= UIManager_OnGotSurrender;
         OnAcceptPauseRequest -= UIManager_OnAcceptPauseRequest;
         OnRecievedPauseRequest -= UIManager_OnRecievedPauseRequest;
         OnPauseRequest -= UIManager_OnPauseRequest;
         onContinueGameRequest -= UIManager_onContinueGameRequest;
+        OnGotTieRequest -= UIManager_OnGotTieRequest;
     }
     #endregion
 
-    
-
     #region EventDriven Functions
+    void UIManager_OnGotTieRequest()
+    {
+        CustomDebug.Log("got trie request");
+        recievedTieconfirm = true;
+    }
+
     void UIManager_OnGotSurrender()
     {
         Application.LoadLevel(0);
@@ -145,11 +167,6 @@ public class UIManager : MonoBehaviour
     void UIManager_onContinueGameRequest()
     {
         StartCoroutine(ClosePause());
-    }
-
-    void UIManager_OnTieRequest()
-    {
-        throw new System.NotImplementedException();
     }
 
     void UIManager_OnPauseRequest()
@@ -270,6 +287,41 @@ public class UIManager : MonoBehaviour
         }
         PauseWindow.SetActive(false);
        
+    }
+
+    IEnumerator TieWait()
+    {
+        int length = Mathf.FloorToInt(10 / Time.deltaTime);
+        string msg = TieWaitText.text;
+
+        for (int i = 0; i < length; i++)
+        {
+            if (recievedTieconfirm)
+                break;
+            print(recievedTieconfirm);
+            if (i % 12 == 0)
+                TieWaitText.text = "." + TieWaitText.text + ".";
+            if (i % 60 == 0)
+                TieWaitText.text = msg;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        if(recievedTieconfirm)
+        {
+            CustomDebug.Log("Confirmed Tie");
+            TieWaitText.text = "Tie Confirmed";
+            yield return new WaitForSeconds(1f);
+            Application.LoadLevel(0);
+        }
+        else
+        {
+            CustomDebug.Log("Tie Declined");
+            TieWaitText.text = "No Tie keep playing";
+            yield return new WaitForSeconds(1f);
+            TieWaitText.text = msg;
+            TieWaitWindow.SetActive(false);
+        }
     }
     #endregion
 }

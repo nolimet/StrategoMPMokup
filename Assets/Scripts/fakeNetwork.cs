@@ -15,7 +15,7 @@ public class fakeNetwork : MonoBehaviour {
         UIManager.OnRecievedPauseRequest += UIManager_OnRecievedPauseRequest;
         UIManager.OnRequestTie += UIManager_OnRequestTie;
         UIManager.OnSurrenderSend += UIManager_OnSurrenderSend;
-        UIManager.OnTieRequest += UIManager_OnTieRequest;
+        UIManager.OnGotTieRequest += UIManager_OnGotTieRequest;
     }
 
     void OnDestroy()
@@ -28,12 +28,12 @@ public class fakeNetwork : MonoBehaviour {
         UIManager.OnRecievedPauseRequest -= UIManager_OnRecievedPauseRequest;
         UIManager.OnRequestTie -= UIManager_OnRequestTie;
         UIManager.OnSurrenderSend -= UIManager_OnSurrenderSend;
-        UIManager.OnTieRequest -= UIManager_OnTieRequest;
+        UIManager.OnGotTieRequest -= UIManager_OnGotTieRequest;
     }
 
-    void UIManager_OnTieRequest()
+    void UIManager_OnGotTieRequest()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     void UIManager_OnSurrenderSend()
@@ -43,7 +43,8 @@ public class fakeNetwork : MonoBehaviour {
 
     void UIManager_OnRequestTie()
     {
-        throw new System.NotImplementedException();
+        if (Random.Range(0f, 100f) > 40f)
+            Invoke("tieWait",Random.Range(0.2f,2f));
     }
 
     void UIManager_OnRecievedPauseRequest()
@@ -59,7 +60,7 @@ public class fakeNetwork : MonoBehaviour {
         }
             
         if (willsend)
-            Invoke("pausepause", 0.5f);
+            Invoke("pausepause", Random.Range(0.2f, 2f));
         else
             CustomDebug.Log("No pause", CustomDebug.Level.Info);
         willsend = !willsend;
@@ -89,5 +90,10 @@ public class fakeNetwork : MonoBehaviour {
     void pausepause()
     {
         UIManager.callOnAcceptPauseRequest();
+    }
+
+    void tieWait()
+    {
+        UIManager.callOnGotTieRequest();
     }
 }

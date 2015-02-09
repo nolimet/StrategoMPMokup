@@ -80,6 +80,7 @@ public class UIManager : MonoBehaviour
     public void Continue()
     {
         onContinueGameRequest();
+        StopCoroutine(WaitPause());
     }
     #endregion
 
@@ -91,6 +92,16 @@ public class UIManager : MonoBehaviour
         OnRecievedPauseRequest += UIManager_OnRecievedPauseRequest;
         OnPauseRequest += UIManager_OnPauseRequest;
         onContinueGameRequest += UIManager_onContinueGameRequest;
+    }
+
+    void OnDestroy()
+    {
+        OnTieRequest -= UIManager_OnTieRequest;
+        OnGotSurrender -= UIManager_OnGotSurrender;
+        OnAcceptPauseRequest -= UIManager_OnAcceptPauseRequest;
+        OnRecievedPauseRequest -= UIManager_OnRecievedPauseRequest;
+        OnPauseRequest -= UIManager_OnPauseRequest;
+        onContinueGameRequest -= UIManager_onContinueGameRequest;
     }
 
     void UIManager_onContinueGameRequest()
@@ -168,7 +179,7 @@ public class UIManager : MonoBehaviour
                     break;
 
                 if (i % 12 == 0)
-                    PauseText.text += ".";
+                    PauseText.text = "." + PauseText.text + ".";
                 if (i % 48 == 0)
                     PauseText.text = "Waiting for Response";
                 yield return new WaitForEndOfFrame();

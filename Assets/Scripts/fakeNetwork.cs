@@ -18,7 +18,7 @@ public class fakeNetwork : MonoBehaviour {
         UIManager.OnTieRequest += UIManager_OnTieRequest;
     }
 
-    void OnDestory()
+    void OnDestroy()
     {
         Chathandler.OnSendChat -= Chathandler_OnSendChat;
         Chathandler.OnChatRecieved -= Chathandler_OnChatRecieved;
@@ -53,8 +53,13 @@ public class fakeNetwork : MonoBehaviour {
 
     void UIManager_OnPauseRequest()
     {
+        if (this == null)
+        {
+            return;
+        }
+            
         if (willsend)
-            StartCoroutine(pausepause());
+            Invoke("pausepause", 0.5f);
         else
             CustomDebug.Log("No pause", CustomDebug.Level.Info);
         willsend = !willsend;
@@ -81,9 +86,8 @@ public class fakeNetwork : MonoBehaviour {
         //Chathandler.CallOnChatRecieved("bob", "I WILL DESTORY YOU!!");
     }
 
-    IEnumerator pausepause()
+    void pausepause()
     {
-        yield return new WaitForSeconds(0.5f);
         UIManager.callOnAcceptPauseRequest();
     }
 }

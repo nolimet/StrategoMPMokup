@@ -5,10 +5,14 @@ public class UIManager : MonoBehaviour
 {
     #region Variables
     [SerializeField]
-    GameObject ChatWindow = null, PauseWindow = null;
+    GameObject ChatWindow = null, PauseWindow = null, SurrenderConfirmWindow = null;
     [SerializeField]
-    UnityEngine.UI.Text PauseText;
-    bool PauseReceivedCallback;
+    GameObject[] MenuItems = new GameObject[0], Canvases = new GameObject[0];
+    [SerializeField]
+    UnityEngine.UI.Text PauseText = null;
+    [SerializeField]
+    CanvasGroup ChatGroup = null, PauseGroup = null;
+    bool PauseReceivedCallback = false;
     bool pauseopen = false;
     #endregion
 
@@ -39,6 +43,10 @@ public class UIManager : MonoBehaviour
 
     public delegate void GotSurrender();
     public static event GotSurrender OnGotSurrender;
+    public static void CallOnGotSurrender()
+    {
+        OnGotSurrender();
+    }
 
     public delegate void GotTieRequest();
     public static event GotTieRequest OnTieRequest;
@@ -64,12 +72,29 @@ public class UIManager : MonoBehaviour
 
     public void SendSurrender()
     {
+        SurrenderConfirmWindow.SetActive(true);
+    }
+
+    public void ConfirmSurrender()
+    {
         OnSurrenderSend();
+    }
+
+    public void CancelSurrender()
+    {
+        SurrenderConfirmWindow.SetActive(false);
     }
 
     public void RequestTie()
     {
         OnRequestTie();
+    }
+
+    public void OpenMenu(int value)
+    {
+        foreach (GameObject g in MenuItems)
+            g.SetActive(false);
+        MenuItems[value].SetActive(true);
     }
 
     public void ToggleGraveYard()
@@ -84,6 +109,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
+    #region monoDrivenEvents
     void Start()
     {
         OnTieRequest += UIManager_OnTieRequest;
@@ -92,6 +118,9 @@ public class UIManager : MonoBehaviour
         OnRecievedPauseRequest += UIManager_OnRecievedPauseRequest;
         OnPauseRequest += UIManager_OnPauseRequest;
         onContinueGameRequest += UIManager_onContinueGameRequest;
+
+        foreach (GameObject g in Canvases)
+            g.SetActive(true);
     }
 
     void OnDestroy()
@@ -103,16 +132,19 @@ public class UIManager : MonoBehaviour
         OnPauseRequest -= UIManager_OnPauseRequest;
         onContinueGameRequest -= UIManager_onContinueGameRequest;
     }
+    #endregion
 
-    void UIManager_onContinueGameRequest()
-    {
-        StartCoroutine(ClosePause());
-    }
+    
 
     #region EventDriven Functions
     void UIManager_OnGotSurrender()
     {
-        throw new System.NotImplementedException();
+        Application.LoadLevel(0);
+    }
+
+    void UIManager_onContinueGameRequest()
+    {
+        StartCoroutine(ClosePause());
     }
 
     void UIManager_OnTieRequest()
@@ -143,13 +175,15 @@ public class UIManager : MonoBehaviour
     {
         bool isActive = ChatWindow.activeSelf;
         int length = 40;
-        float a = 15f / 20;
+        float a = 150f / length;
+        float b = 1f / length;
         if (!isActive)
         {
             ChatWindow.SetActive(true);
             for (int i = length; i > 0; i--)
             {
                 ChatWindow.transform.localPosition = new Vector3(ChatWindow.transform.localPosition.x, 0f - a * i, ChatWindow.transform.localPosition.z);
+                ChatGroup.alpha = b * (length - i);
                 yield return new WaitForEndOfFrame();
             }
         }
@@ -158,6 +192,7 @@ public class UIManager : MonoBehaviour
             for (int i = 0; i < length; i++)
             {
                 ChatWindow.transform.localPosition = new Vector3(ChatWindow.transform.localPosition.x, 0f - a * i, ChatWindow.transform.localPosition.z);
+                ChatGroup.alpha = b * (length - i - 3);
                 yield return new WaitForEndOfFrame();
             }
             ChatWindow.SetActive(false);
@@ -207,12 +242,14 @@ public class UIManager : MonoBehaviour
         pauseopen = true;
 
         int length = 40;
-        float a = 15f / 20;
+        float a = 150f / length;
+        float b = 1f / length;
 
         PauseWindow.SetActive(true);
         for (int i = length; i > 0; i--)
         {
             PauseWindow.transform.localPosition = new Vector3(PauseWindow.transform.localPosition.x, 0f - a * i, PauseWindow.transform.localPosition.z);
+            PauseGroup.alpha = b * (length - i - 3);
             yield return new WaitForEndOfFrame();
         }
     }
@@ -222,11 +259,13 @@ public class UIManager : MonoBehaviour
         pauseopen = false;
 
         int length = 40;
-        float a = 15f / 20;
+        float a = 150f / length;
+        float b = 1f / length;
 
         for (int i = 0; i < length; i++)
         {
             PauseWindow.transform.localPosition = new Vector3(PauseWindow.transform.localPosition.x, 0f - a * i, PauseWindow.transform.localPosition.z);
+            PauseGroup.alpha = b * (length - i - 3);
             yield return new WaitForEndOfFrame();
         }
         PauseWindow.SetActive(false);

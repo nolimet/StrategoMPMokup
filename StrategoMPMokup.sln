@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{E22DB44E-3035-E096-129E-BFA200534BF8}") = "StrategoMPMokup", "Assembly-CSharp.csproj", "{CFC2FFF8-AC21-BEA4-7740-AAEF680299D8}"
 EndProject
+Project("{E22DB44E-3035-E096-129E-BFA200534BF8}") = "StrategoMPMokup", "Assembly-UnityScript.unityproj", "{2A42C379-D5B2-027A-BEED-130131CD8AC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{CFC2FFF8-AC21-BEA4-7740-AAEF680299D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFC2FFF8-AC21-BEA4-7740-AAEF680299D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFC2FFF8-AC21-BEA4-7740-AAEF680299D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A42C379-D5B2-027A-BEED-130131CD8AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A42C379-D5B2-027A-BEED-130131CD8AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A42C379-D5B2-027A-BEED-130131CD8AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A42C379-D5B2-027A-BEED-130131CD8AC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																											GlobalSection(MonoDevelopProperties) = preSolution
+																																																GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

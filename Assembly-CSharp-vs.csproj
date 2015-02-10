@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Menu\Opener.cs" />
      <Compile Include="Assets\Scripts\UIFlow\InGame\Chathandler.cs" />
      <Compile Include="Assets\Scripts\UIFlow\InGame\UIManager.cs" />
+     <Compile Include="Assets\Scripts\UIFlow\Login\LoginControler.cs" />
      <Compile Include="Assets\Scripts\UIFlow\MainMenu\FriendHandler.cs" />
      <Compile Include="Assets\Scripts\UIFlow\MainMenu\FriendManager.cs" />
      <Compile Include="Assets\Scripts\UIFlow\MainMenu\MenuManager.cs" />

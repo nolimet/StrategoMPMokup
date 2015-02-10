@@ -18,11 +18,12 @@ public class MenuManager : MonoBehaviour {
     }
 
     [SerializeField]
-    RectTransform[] menus;
+    RectTransform[] menus = null;
     [SerializeField]
-    GameObject Main,bigMenuParent;
+    GameObject Main = null, Login = null, Menu = null;
     [SerializeField]
     int current = 0;
+    public static MenuManager instance;
 
     void Start()
     {
@@ -35,6 +36,32 @@ public class MenuManager : MonoBehaviour {
 
         OnOpenMiniMenu += MenuManager_OnOpenMiniMenu;
         OnClosedMiniMenu += MenuManager_OnClosedMiniMenu;
+
+        instance = this;
+        openLogin();
+    }
+
+    public void openMainMenu()
+    {
+        Login.SetActive(false);
+        Menu.SetActive(true);
+        open(0);
+       
+    }
+
+    public void openLogin()
+    {
+        Login.SetActive(true);
+        Menu.SetActive(false);
+        
+    }
+
+    public void Logout()
+    {
+        LoginControler.isloggedin = false;
+        util.saveValue.setBool(false, "isloggedin");
+        PlayerPrefs.Save();
+        openLogin();
     }
 
     void OnDestroy()

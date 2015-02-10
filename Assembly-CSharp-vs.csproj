@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\util\VectorExtension.cs" />
      <Compile Include="Assets\Scripts\util\VerticalHeightSetter.cs" />
      <Compile Include="Assets\Scripts\util\colourPingPong.cs" />
+     <Compile Include="Assets\Scripts\util\saveValue.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity4.6/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
  </Reference>

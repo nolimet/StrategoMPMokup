@@ -10,6 +10,11 @@ public class SmallWindow : MonoBehaviour
     {
         singleton = this;
     }
+
+    void OnEnable()
+    {
+        singleton = this;
+    }
     public void close(GameObject value)
     {
         MenuManager.callOnCloseMiniMenu();

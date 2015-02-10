@@ -25,6 +25,8 @@ public class FriendManager : MonoBehaviour
     Dictionary<string, GameObject> friendsInList = new Dictionary<string, GameObject>();
     [SerializeField]
     GameObject friendIconParent = null, scrollerContent = null;
+    [SerializeField]
+    UnityEngine.UI.ScrollRect scrollrect;
 
     public FriendHandler friendPopupWindow;
 
@@ -57,13 +59,18 @@ public class FriendManager : MonoBehaviour
 
     void BuildList()
     {
-
+        
         foreach (FriendData f in editFriends)
         {
             CustomDebug.Log(f.Name, CustomDebug.Level.Trace);
             AddFriend(f);
         }
         scrollerContent.SendMessage("calcHeight");
+    }
+
+    void OnEnable()
+    {
+        scrollrect.verticalNormalizedPosition = 1;
     }
 
     void AddFriend(FriendData data)

@@ -11,6 +11,8 @@ public class FriendHandler : MonoBehaviour {
     private GameObject Online = null, Offline = null;
     [SerializeField]
     private UnityEngine.UI.Button[] unfriend;
+    [SerializeField]
+    private Sprite defaultIcon = null;
 
 
     public void SetData(FriendData data)
@@ -24,7 +26,11 @@ public class FriendHandler : MonoBehaviour {
         level.text = "Level " + data.Level.ToString();
         statistics.text = data.Staticsics;
         status.text = data.status.ToString();
-        Icon.sprite = data.icon;
+        if (data.icon != new Sprite())
+            Icon.sprite = data.icon;
+        else
+            Icon.sprite = defaultIcon;
+
         switch (data.status)
         {
             case friendStatus.Online:

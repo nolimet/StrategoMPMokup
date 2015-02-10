@@ -83,8 +83,12 @@ public class FriendManager : MonoBehaviour
         G.transform.SetParent(scrollerContent.transform);
         G.transform.localScale = new Vector3(1, 1, 1);
         G.GetComponentInChildren<UnityEngine.UI.Text>().text = data.Name;
-        G.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-        G.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => { friendPopupWindow.SetData(friends[data.Name]); SmallWindow.singleton.open(friendPopupWindow.gameObject); });
+        UnityEngine.UI.Button B = G.GetComponent<UnityEngine.UI.Button>();
+        B.onClick.RemoveAllListeners();
+        B.onClick.AddListener(() => { friendPopupWindow.SetData(friends[data.Name]); SmallWindow.singleton.open(friendPopupWindow.gameObject); });
+        if(data.status == friendStatus.Offline)
+            B.image.color = Color.gray; 
+        
     }
 
     void removeFriend(FriendData data)

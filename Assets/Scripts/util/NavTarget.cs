@@ -16,7 +16,7 @@ public class NavTarget : MonoBehaviour {
 
     }
 
-	void Update () {
+	/*void Update () {
         if (canAlwaysSee||agent.destination != target.position && Vector3.Distance(target.position, transform.position) < 15f)
         {
             RaycastHit hit;
@@ -24,5 +24,5 @@ public class NavTarget : MonoBehaviour {
                 if (canAlwaysSee || hit.transform.gameObject.tag == "Player")
                     agent.SetDestination(target.position);
         }
-	}
+	}*/
 }

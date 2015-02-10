@@ -155,7 +155,7 @@ public class UIManager : MonoBehaviour
     #region EventDriven Functions
     void UIManager_OnGotTieRequest()
     {
-        CustomDebug.Log("got trie request");
+        CustomDebug.Log("got tie request");
         recievedTieconfirm = true;
     }
 
@@ -291,14 +291,12 @@ public class UIManager : MonoBehaviour
 
     IEnumerator TieWait()
     {
-        int length = Mathf.FloorToInt(10 / Time.deltaTime);
+        int length = 600;
         string msg = TieWaitText.text;
-
+        recievedTieconfirm = false;
         for (int i = 0; i < length; i++)
         {
             if (recievedTieconfirm)
-                break;
-            print(recievedTieconfirm);
             if (i % 12 == 0)
                 TieWaitText.text = "." + TieWaitText.text + ".";
             if (i % 60 == 0)

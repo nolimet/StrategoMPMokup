@@ -37,6 +37,12 @@ public class MenuManager : MonoBehaviour {
         OnClosedMiniMenu += MenuManager_OnClosedMiniMenu;
     }
 
+    void OnDestroy()
+    {
+        OnOpenMiniMenu -= MenuManager_OnOpenMiniMenu;
+        OnClosedMiniMenu -= MenuManager_OnClosedMiniMenu;
+    }
+
     void MenuManager_OnClosedMiniMenu()
     {
         UnityEngine.UI.Button[] buttons = menus[current].gameObject.GetComponentsInChildren<UnityEngine.UI.Button>();

@@ -21,7 +21,8 @@ public class PlayerManager : MonoBehaviour
     #endregion
     [SerializeField]
     List<PlayerData> editPlayers = new List<PlayerData>(); //forEditor filing;
-
+    [SerializeField]
+    UnityEngine.UI.ScrollRect scrollrect;
     Dictionary<string, PlayerData> players = new Dictionary<string, PlayerData>();
     Dictionary<string, GameObject> playersInList = new Dictionary<string, GameObject>();
     [SerializeField]
@@ -61,6 +62,13 @@ public class PlayerManager : MonoBehaviour
             AddPlayer(f);
         }
         scrollerContent.SendMessage("calcHeight");
+
+        
+    }
+
+    void OnEnable()
+    {
+        scrollrect.verticalNormalizedPosition = 1;
     }
 
     void AddPlayer(PlayerData data)

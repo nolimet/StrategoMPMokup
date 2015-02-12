@@ -42,6 +42,7 @@ public class LoginControler : MonoBehaviour {
 
     public void Login()
     {
+        //check with server if username and password are correct if not then give error
         if (LoginUser.text == "bob" && LoginPassword.text == "taart")
                 StartCoroutine(WaitForServer(openScene, 1));
 
@@ -125,17 +126,18 @@ public class LoginControler : MonoBehaviour {
     {
         string msg = ServerwaitText.text;
         ServerWait.SetActive(true);
-        int length = Mathf.FloorToInt(Random.Range(30, 300));
+        int length = Mathf.FloorToInt(Random.Range(30, 300)); //simultion purpouses. Response time wait for server
         for (int i = 0; i < length; i++)
-        {
+        {//wait for server respone
             if (i % 6 == 0)
                 ServerwaitText.text = "." + ServerwaitText.text + ".";
             if (i % 30 == 0)
-                ServerwaitText.text = msg;
+                ServerwaitText.text = msg; 
             yield return new WaitForEndOfFrame();
         }
         ServerwaitText.text = msg;
 
+        //if decode response
         ServerWait.SetActive(false);
         method(scene);
     }

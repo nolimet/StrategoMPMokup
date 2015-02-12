@@ -48,6 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameData\DataClasses.cs" />
      <Compile Include="Assets\Scripts\Menu\Opener.cs" />
+     <Compile Include="Assets\Scripts\Menu\User.cs" />
+     <Compile Include="Assets\Scripts\UIFlow\AllPurpous\ProfileBuilder.cs" />
      <Compile Include="Assets\Scripts\UIFlow\InGame\Chathandler.cs" />
      <Compile Include="Assets\Scripts\UIFlow\InGame\UIManager.cs" />
      <Compile Include="Assets\Scripts\UIFlow\Login\LoginControler.cs" />
@@ -80,6 +82,7 @@
      <Compile Include="Assets\Scripts\util\VerticalHeightSetter.cs" />
      <Compile Include="Assets\Scripts\util\colourPingPong.cs" />
      <Compile Include="Assets\Scripts\util\saveValue.cs" />
+     <Compile Include="Assets\calc.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity4.6/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
  </Reference>

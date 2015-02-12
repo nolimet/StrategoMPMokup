@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.EventSystems;
 public class Chathandler : MonoBehaviour {
 
     public UnityEngine.UI.InputField inputField;
@@ -39,7 +39,13 @@ public class Chathandler : MonoBehaviour {
         UnityEngine.UI.InputField.SubmitEvent submitEvent = new UnityEngine.UI.InputField.SubmitEvent();
         submitEvent.AddListener(SendChatButton);
         inputField.onEndEdit = submitEvent;
+
         //inputField.onSubmit.AddListener((value) => { SendChatButton(value); });
+    }
+
+    void Awake()
+    {
+        EventSystem.current.SetSelectedGameObject(inputField.gameObject, null);
     }
 
     void Chathandler_OnSendChat(string sender, string text)

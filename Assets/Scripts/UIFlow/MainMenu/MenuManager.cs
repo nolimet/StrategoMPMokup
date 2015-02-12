@@ -38,7 +38,10 @@ public class MenuManager : MonoBehaviour {
         OnClosedMiniMenu += MenuManager_OnClosedMiniMenu;
 
         instance = this;
-        openLogin();
+        if (!User.Instance.loggedin)
+            openLogin();
+        else
+            openMainMenu();
     }
 
     public void openMainMenu()

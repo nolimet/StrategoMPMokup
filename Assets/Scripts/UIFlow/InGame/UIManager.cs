@@ -9,10 +9,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject[] MenuItems = new GameObject[0], Canvases = new GameObject[0];
     [SerializeField]
+    RectTransform dropDown = null;
+    [SerializeField]
     UnityEngine.UI.Text PauseText = null, TieWaitText = null;
     [SerializeField]
     CanvasGroup ChatGroup = null, PauseGroup = null;
-    bool PauseReceivedCallback = false, pauseopen = false, recievedTieconfirm = false;
+    bool PauseReceivedCallback = false, pauseopen = false, recievedTieconfirm = false, dropdownMoving = false;
     #endregion
 
 
@@ -123,6 +125,11 @@ public class UIManager : MonoBehaviour
         onContinueGameRequest();
         StopCoroutine(WaitPause());
     }
+
+    public void ToggleDropDown()
+    {
+        StartCoroutine(ToggleDropdown());
+    }
     #endregion
 
     #region monoDrivenEvents
@@ -137,6 +144,8 @@ public class UIManager : MonoBehaviour
 
         foreach (GameObject g in Canvases)
             g.SetActive(true);
+
+        dropDown.gameObject.SetActive(false);
     }
 
     
@@ -191,7 +200,7 @@ public class UIManager : MonoBehaviour
     IEnumerator ShowChat()
     {
         bool isActive = ChatWindow.activeSelf;
-        int length = 40;
+        int length = 20;
         float a = 150f / length;
         float b = 1f / length;
         if (!isActive)
@@ -320,6 +329,38 @@ public class UIManager : MonoBehaviour
             TieWaitText.text = msg;
             TieWaitWindow.SetActive(false);
         }
+    }
+
+    IEnumerator ToggleDropdown()
+    {
+        if (!dropdownMoving)
+        {
+            dropdownMoving = true;
+            int length = 20;
+            float a = 1f / length;
+
+            if (dropDown.gameObject.activeSelf)
+          {
+                for (int i = length; i > 0; i--)
+                {
+                    dropDown.localScale = new Vector3(a * i, a * i, 1);
+                    yield return new WaitForEndOfFrame();
+                }
+                dropDown.gameObject.SetActive(false);
+            }
+            else
+            {
+                dropDown.gameObject.SetActive(true);
+                for (int i = 0; i < length; i++)
+                {
+                    dropDown.localScale = new Vector3(a * i, a * i, 1);
+                    yield return new WaitForEndOfFrame();
+                }
+                dropDown.localScale = Vector3.one;
+            }
+            dropdownMoving = false;
+        }
+        
     }
     #endregion
 }

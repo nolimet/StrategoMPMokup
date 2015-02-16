@@ -61,9 +61,9 @@ public class MenuManager : MonoBehaviour {
 
     public void Logout()
     {
-        LoginControler.isloggedin = false;
-        util.saveValue.setBool(false, "isloggedin");
-        PlayerPrefs.Save();
+
+        User.Instance.token.loggedin = false;
+        User.Instance.loggedin = false;
         openLogin();
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 [System.Serializable]
@@ -46,10 +47,14 @@ public class UserToken
 {
     public string Name = "bob";
     public int Level = 0;
+    public bool loggedin = false;
     public string[] Staticsics;
+    [NonSerialized()]
     public Sprite icon;
 
+    [NonSerialized()]
     readonly Rect iconSize = new Rect(0, 0, 50, 50);
+    [NonSerialized()]
     readonly Vector2 pivotIcon = new Vector2(0.5f, 0.5f); //can't be consts
     public UserToken(string _name, int _level, string[] _staticsics, Texture2D _icon)
     {

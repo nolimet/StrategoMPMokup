@@ -21,6 +21,12 @@ public class User : MonoBehaviour
 
         Instance = this;
         Object.DontDestroyOnLoad(this);
+
+        if (Serialization.Load())
+        {
+            loggedin = token.loggedin;
+        }
+
     }
 
     public void setToken(string _name, int _level, string[] _staticsics, Texture2D _icon = null)
@@ -28,5 +34,10 @@ public class User : MonoBehaviour
         if(_icon==null)
             _icon = DefautIcon;
         token = new UserToken(_name, _level, _staticsics, _icon);
+    }
+
+    public void OnApplicationQuit()
+    {
+        Serialization.Save(token);
     }
 }

@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameData\DataClasses.cs" />
+     <Compile Include="Assets\Scripts\Menu\Dragable.cs" />
      <Compile Include="Assets\Scripts\Menu\Opener.cs" />
      <Compile Include="Assets\Scripts\Menu\User.cs" />
+     <Compile Include="Assets\Scripts\Saving\serializer.cs" />
      <Compile Include="Assets\Scripts\UIFlow\AllPurpous\ProfileBuilder.cs" />
      <Compile Include="Assets\Scripts\UIFlow\InGame\Chathandler.cs" />
      <Compile Include="Assets\Scripts\UIFlow\InGame\UIManager.cs" />

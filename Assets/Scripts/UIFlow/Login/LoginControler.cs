@@ -122,6 +122,12 @@ public class LoginControler : MonoBehaviour {
         return "";
     }
 
+    public void setLoggedIn(bool arg)
+    {
+        User.Instance.token.loggedin = true;
+        User.Instance.loggedin = true;
+    }
+
     IEnumerator WaitForServer(System.Func<int,string> method, int scene = -1)
     {
         string msg = ServerwaitText.text;
@@ -139,6 +145,8 @@ public class LoginControler : MonoBehaviour {
 
         //if decode response
         ServerWait.SetActive(false);
+        User.Instance.loggedin = true;
+        User.Instance.token.loggedin = true;
         method(scene);
     }
 }

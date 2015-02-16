@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     UnityEngine.UI.Text PauseText = null, TieWaitText = null;
     [SerializeField]
     CanvasGroup ChatGroup = null, PauseGroup = null;
-    bool PauseReceivedCallback = false, pauseopen = false, recievedTieconfirm = false, dropdownMoving = false;
+    bool PauseReceivedCallback = false, pauseopen = false, recievedTieconfirm = false, dropdownMoving = false, chatmoving = false;
     #endregion
 
 
@@ -199,29 +199,36 @@ public class UIManager : MonoBehaviour
     #region IEumerators
     IEnumerator ShowChat()
     {
-        bool isActive = ChatWindow.activeSelf;
-        int length = 20;
-        float a = 150f / length;
-        float b = 1f / length;
-        if (!isActive)
+        if (!chatmoving)
         {
-            ChatWindow.SetActive(true);
-            for (int i = length; i > 0; i--)
+            chatmoving = true;
+            bool isActive = ChatWindow.activeSelf;
+            int length = 20;
+            float a = 150f / length;
+            float b = 1f / length;
+            Vector3 startPos = ChatWindow.transform.localPosition;
+            if (!isActive)
             {
-                ChatWindow.transform.localPosition = new Vector3(ChatWindow.transform.localPosition.x, 0f - a * i, ChatWindow.transform.localPosition.z);
-                ChatGroup.alpha = b * (length - i);
-                yield return new WaitForEndOfFrame();
+                ChatWindow.SetActive(true);
+                for (int i = length; i > 0; i--)
+                {
+                    ChatWindow.transform.localPosition = new Vector3(startPos.x, startPos.y - a * i, startPos.z);
+                    ChatGroup.alpha = b * (length - i);
+                    yield return new WaitForEndOfFrame();
+                }
             }
-        }
-        else
-        {
-            for (int i = 0; i < length; i++)
+            else
             {
-                ChatWindow.transform.localPosition = new Vector3(ChatWindow.transform.localPosition.x, 0f - a * i, ChatWindow.transform.localPosition.z);
-                ChatGroup.alpha = b * (length - i - 3);
-                yield return new WaitForEndOfFrame();
+                for (int i = 0; i < length; i++)
+                {
+                    ChatWindow.transform.localPosition = new Vector3(startPos.x, startPos.y - a * i, startPos.z);
+                    ChatGroup.alpha = b * (length - i - 3);
+                    yield return new WaitForEndOfFrame();
+                }
+                ChatWindow.SetActive(false);
             }
-            ChatWindow.SetActive(false);
+            chatmoving = false;
+            ChatWindow.transform.localPosition = startPos;
         }
     }
 
